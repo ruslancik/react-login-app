@@ -61,9 +61,9 @@ class SignIn extends React.Component {
 
                          <ButtonsBarContainer>
                             <CustomButton type='submit'>SIGN IN</CustomButton>
-                             <CustomButton  inverted>REGISTER</CustomButton>
                             <CustomButton onClick={signInWithGoogle} isGoogleSignIn>SIGN IN WITH GOOGLE</CustomButton>
                             <CustomButton onClick={signInWithFacebook} isFacebookSignIn>SIGN IN WITH FACEBOOK</CustomButton>
+                            <CustomButton  inverted>REGISTER</CustomButton>
                          </ButtonsBarContainer>
                 </form>
 

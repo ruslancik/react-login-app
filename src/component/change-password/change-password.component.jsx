@@ -6,6 +6,7 @@ import CustomButton from '../custom-button/custom-button.component'
 import {auth, createUserProfileDocument} from '../../firebase/firebase.utils'
 
 import {ChangePasswordContainer, ChangePasswordTitle} from './change-password.style'
+import firebase from 'firebase/app'
 
 class ChangePassword extends React.Component {
 
@@ -24,13 +25,50 @@ class ChangePassword extends React.Component {
         this.setState({[name]:value})
     }
 
-    handleSubmit = event => {
+    reAuthentication = (currentPassword) => {
+        const user = firebase.auth().currentUser;
+        const credential = firebase.auth.EmailAuthProvider.credential(user.email, currentPassword);
+        return user.reauthenticateWithCredential(credential);
+    }
 
-    };
+    handleSubmit = async event => {
+        event.preventDefault();
+        const {currentPassword, password, confirmPassword} = this.state;
+        this.reAuthentication(currentPassword).then(() => {
+           
+            if(password !== confirmPassword) {
+                alert("Passwords don't match ")
+                return;
+            }
+           
+                const user = firebase.auth().currentUser;
+                user.updatePassword(password).then(() => {
+                    alert('Password was changed')
+                }).catch((error) => {
+                    alert(error.message)
+                })           
+                
+                }).catch((error) => {
+                    alert(error.message)
+                })
+       
+            //clearing out the form after submit
+            this.setState({
+                displayName:"",
+                email:"",
+                password:"",
+                confirmPassword: "",
+                question: ''
+            })
+
+       
+    }
+
+    
 
     render(){
 
-        const userUid = auth.currentUser?.uid;
+        const userUid = auth.currentUser;
         console.log(userUid);
 
         return(

@@ -16,7 +16,8 @@ class SignUp extends React.Component {
             displayName:"",
             email:"",
             password:"",
-            confirmPassword: ""
+            confirmPassword: "",
+            question: ''
         }
     }
     // HandleChange function
@@ -28,7 +29,7 @@ class SignUp extends React.Component {
     //HandleSubmit function
     handleSubmit = async event => {
         event.preventDefault();
-        const {displayName, email, password, confirmPassword} = this.state;
+        const {displayName, email, password, confirmPassword,question} = this.state;
 
         if(password !== confirmPassword) {
             alert("Passwords don't match ")
@@ -38,14 +39,15 @@ class SignUp extends React.Component {
         try {
             // firebase speacial function for email and password signins
             const {user} = await auth.createUserWithEmailAndPassword(email,password);
-            await createUserProfileDocument(user, {displayName, password});
+            await createUserProfileDocument(user, {displayName, question});
             
             //clearing out the form after submit
             this.setState({
                 displayName:"",
                 email:"",
                 password:"",
-                confirmPassword: ""
+                confirmPassword: "",
+                question: ''
             })
 
         } catch (error) {
@@ -75,6 +77,15 @@ class SignUp extends React.Component {
                     value={this.state.email}
                     onChange={this.handleChange}
                     required/>
+
+                    <FormInput
+                    name='question'
+                    type='text'
+                    label='What is your first pet name ?   | For Security'
+                    value={this.state.question}
+                    onChange={this.handleChange}
+                    required>
+                    </FormInput>
 
                     <FormInput
                     name='password'
