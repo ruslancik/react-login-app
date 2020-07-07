@@ -25,13 +25,25 @@ const invertedButtonStyles = css`
 `;
 
 const googleSignInStyles = css`
-  background-color: #4285f4;
+  background-color: #DB4437;
   color: white;
   padding: 0 30px 0 30px;
   border:none;
 
   &:hover {
-    background-color: #357ae8;
+    background-color: rgba(219, 69, 55, 0.5);
+    border: none;
+  }
+`;
+
+const facebookSignInStyles = css`
+  background-color: #3b5998;
+  color: white;
+  padding: 0 30px 0 30px;
+  border:none;
+
+  &:hover {
+    background-color: #8b9dc3;
     border: none;
   }
 `;
@@ -39,6 +51,9 @@ const googleSignInStyles = css`
 const getButtonStyles = props => {
   if (props.isGoogleSignIn) {
     return googleSignInStyles;
+  }
+  if(props.isFacebookSignIn){
+    return facebookSignInStyles;
   }
 
   return props.inverted ? invertedButtonStyles : buttonStyles;
@@ -60,6 +75,7 @@ export const CustomButtonContainer = styled.button`
   justify-content: center;
   align-items:center;
   outline:none;
+  margin-bottom:10px;
 
 
   ${getButtonStyles}

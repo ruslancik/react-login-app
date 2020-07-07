@@ -1,7 +1,8 @@
 import React from 'react'
 import FormInput from '../form-input/form-input.component'
 import CustomButton from '../custom-button/custom-button.component'
-import {signInWithGoogle, auth} from '../../firebase/firebase.utils'
+import {signInWithGoogle, signInWithFacebook, auth} from '../../firebase/firebase.utils'
+import {Link} from 'react-router-dom'
 //style
 import {
     SignInContainer,
@@ -60,7 +61,9 @@ class SignIn extends React.Component {
 
                          <ButtonsBarContainer>
                             <CustomButton type='submit'>SIGN IN</CustomButton>
+                             <CustomButton  inverted>REGISTER</CustomButton>
                             <CustomButton onClick={signInWithGoogle} isGoogleSignIn>SIGN IN WITH GOOGLE</CustomButton>
+                            <CustomButton onClick={signInWithFacebook} isFacebookSignIn>SIGN IN WITH FACEBOOK</CustomButton>
                          </ButtonsBarContainer>
                 </form>
 

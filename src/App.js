@@ -3,13 +3,13 @@ import './App.css';
 import {Route, Switch, Redirect } from 'react-router-dom'
 import HomePage from './pages/home/home-page.component'
 import Header from './component/header/header.component'
-import SignInAndSignOut from '../src/pages/SignInAndSignOut/signIn-and-signOut.component'
 import ChangePassword from '../src/component/change-password/change-password.component'
 import { auth } from './firebase/firebase.utils'
 import {createUserProfileDocument} from './firebase/firebase.utils'
-
+import SignUp from './component/signUp/signUp.component'
 import {connect} from 'react-redux'
 import {setCurrentUser} from './redux/user/user.actions'
+import SignIn from './component/signIn/sigIn.component';
 
 
  
@@ -59,8 +59,9 @@ class App extends React.Component {
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route exact path='/change-password' component={ChangePassword} />
+          <Route exact path='/register' component={SignUp} />
           <Route exact path='/signin' 
-            render={() => this.props.currentUser ? <Redirect to='/' /> : <SignInAndSignOut />}
+            render={() => this.props.currentUser ? <Redirect to='/' /> : <SignIn />}
            />
         </Switch>
       </div>

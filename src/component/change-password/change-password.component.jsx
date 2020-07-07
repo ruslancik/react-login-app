@@ -5,10 +5,7 @@ import CustomButton from '../custom-button/custom-button.component'
 
 import {auth, createUserProfileDocument} from '../../firebase/firebase.utils'
 
-import {SignUpContainer, SignUpTitle} from './change-password.style'
-
-const userUid = auth.currentUser?.uid;
-console.log(userUid);
+import {ChangePasswordContainer, ChangePasswordTitle} from './change-password.style'
 
 class ChangePassword extends React.Component {
 
@@ -38,12 +35,12 @@ class ChangePassword extends React.Component {
 
         return(
 
-            <SignUpContainer>
-                <SignUpTitle> Change Password</SignUpTitle>
+            <ChangePasswordContainer>
+                <ChangePasswordTitle> Change Password</ChangePasswordTitle>
                 <span>You can change your password in this page</span>
                 <form onSubmit={this.handleSubmit} className="sign-up-form">
                     <FormInput
-                    name='password'
+                    name='currentPassword'
                     type='password'
                     label='Current Password'
                     value={this.state.currentPassword}
@@ -70,7 +67,7 @@ class ChangePassword extends React.Component {
                     <CustomButton type='submit'>Save</CustomButton>
 
                 </form>
-            </SignUpContainer>
+            </ChangePasswordContainer>
         )
     }
 }
