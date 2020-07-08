@@ -1,10 +1,11 @@
 import React, {useState,useEffect} from 'react'
 import FormInput from '../form-input/form-input.component'
 import CustomButton from '../custom-button/custom-button.component'
-import {signInWithGoogle, signInWithFacebook, auth} from '../../firebase/firebase.utils'
+import {auth} from '../../firebase/firebase.utils'
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
-import { useHistory } from "react-router-dom";
-import * as admin from "firebase-admin";
+import { useHistory, useParams } from "react-router-dom";
+import firebase from 'firebase/app'
+
 
 //style
 import {
@@ -18,18 +19,16 @@ import {
 export const ResetPassword = () => {
 
     const [email, setEmail] = useState('');
-    const adminEmail = admin.auth().getUserByEmail(email);
-    console.log(adminEmail)
+ 
  
 
     const history = useHistory();
     const firestore = useFirestore();
     const archiveRef = firestore.collection("users");
-    const archiveData = useFirestoreCollectionData(archiveRef);
-    console.log(archiveData);    
-   
-
-    
+    const query = archiveRef.where('email', '==', `${email}`);
+    const archiveData = useFirestoreCollectionData(query, {idField : 'id'});
+    const UID = archiveData.map(user => user.id);
+  
    
     useEffect(() => {
         console.log("searchValue ", email);
@@ -37,12 +36,14 @@ export const ResetPassword = () => {
 
        
     const handleSubmit =  async event => {
-        archiveData.map(user => {
+        await archiveData.map(user => {
             if(user.email === email){
-            history.push('/reset-password/security-question')}
-            if(!user.email === email) {
+                history.push(`/reset-password/${UID.toString()}/security-question`)}
+                if(!user.email === email) {
             alert('There is not such an email registered')}
+            return user.id;
         })
+        
     }
 
     
@@ -72,12 +73,12 @@ export const ResetPassword = () => {
 
 
 export const SecurityQuestion = () => {
+    const { id } = useParams();
     const [answer, setAnswer] = useState('');
     const history = useHistory();
     const firestore = useFirestore();
     const archiveRef = firestore.collection("users");
     const archiveData = useFirestoreCollectionData(archiveRef);
-    console.log(archiveData);    
    
 
     
@@ -90,7 +91,7 @@ export const SecurityQuestion = () => {
     const handleSubmit =  async event => {
         archiveData.map(user => {
             if(user.question === answer){
-            history.push('/reset-password/security-question/reset')}
+            history.push(`/reset-password/${id}/security-question/reset`)}
             if(!user.question === answer) {
             alert('There is not such an answer');
         }
@@ -119,4 +120,54 @@ export const SecurityQuestion = () => {
             </ResetContainer>
         )
         
+}
+
+export const Reset = () => {
+
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const fireStore = useFirestore();
+    const { id } = useParams();
+    const userRef = fireStore.collection("users").doc(id);
+
+    console.log(id);
+ 
+ 
+
+
+    const handleSubmit = async () => {
+        
+    
+    }
+
+
+        return(
+
+            <ResetContainer>
+                <ResetTitle> Reset Password</ResetTitle>
+                <span>You can reset your password in this page</span>
+                <form onSubmit={handleSubmit} className="sign-up-form">
+                                    
+                    <FormInput
+                    name='password'
+                    type='password'
+                    label='Reset New Password'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required/>
+
+                    <FormInput
+                    name='confirmPassword'
+                    type='password'
+                    label='Confirm New Password'
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required/>
+
+                    <CustomButton type='submit'>Reset</CustomButton>
+
+                </form>
+            </ResetContainer>
+        )
+
 }

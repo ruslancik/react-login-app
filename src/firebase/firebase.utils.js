@@ -2,6 +2,7 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
 
+
 export const config = {
     apiKey: "AIzaSyC8tdsmvC_btjTIh4j9ZKR4XpCZLc5C5BQ",
     authDomain: "react-login-app-c9e9d.firebaseapp.com",
@@ -12,6 +13,8 @@ export const config = {
     appId: "1:182985525786:web:d02d54e0cb930ed3d3dfa3",
     measurementId: "G-LSJTL8XTP7"
 };
+
+
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
     // if there is no signIn return nothing

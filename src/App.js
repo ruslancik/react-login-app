@@ -10,7 +10,7 @@ import SignUp from './component/signUp/signUp.component'
 import {connect} from 'react-redux'
 import {setCurrentUser} from './redux/user/user.actions'
 import SignIn from './component/signIn/sigIn.component';
-import {ResetPassword, SecurityQuestion} from './component/reset-password/reset-password.component'
+import {ResetPassword, SecurityQuestion, Reset} from './component/reset-password/reset-password.component'
 
 
 
@@ -62,7 +62,8 @@ class App extends React.Component {
           <Route exact path='/' component={HomePage} />
           <Route exact path='/change-password' component={ChangePassword} />
           <Route exact path='/reset-password' component={ResetPassword} />
-          <Route exact path='/reset-password/security-question' component={SecurityQuestion} />
+          <Route exact path='/reset-password/:id/security-question' component={SecurityQuestion} />
+          <Route exact path='/reset-password/:id/security-question/reset' component={Reset} />
           <Route exact path='/signin' 
             render={() => this.props.currentUser ? <Redirect to='/' /> : <SignIn />}
            />
