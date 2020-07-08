@@ -2,7 +2,7 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
 
-const config = {
+export const config = {
     apiKey: "AIzaSyC8tdsmvC_btjTIh4j9ZKR4XpCZLc5C5BQ",
     authDomain: "react-login-app-c9e9d.firebaseapp.com",
     databaseURL: "https://react-login-app-c9e9d.firebaseio.com",

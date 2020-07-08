@@ -58,9 +58,9 @@ class SignIn extends React.Component {
                          name='password'
                          value={this.state.password}
                          required/>
-
+                         <Link style={{color: 'green', fontWeight: 'bold'}} to='/reset-password'>Forget password ?</Link>
                          <ButtonsBarContainer>
-                            <CustomButton type='submit'>SIGN IN</CustomButton>
+                            <CustomButton style={{marginTop : '20px'}} type='submit'>SIGN IN</CustomButton>
                             <CustomButton onClick={signInWithGoogle} isGoogleSignIn>SIGN IN WITH GOOGLE</CustomButton>
                             <CustomButton onClick={signInWithFacebook} isFacebookSignIn>SIGN IN WITH FACEBOOK</CustomButton>
                             <CustomButton  inverted>REGISTER</CustomButton>
