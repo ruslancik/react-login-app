@@ -39,7 +39,7 @@ class SignUp extends React.Component {
         try {
             // firebase speacial function for email and password signins
             const {user} = await auth.createUserWithEmailAndPassword(email,password);
-            await createUserProfileDocument(user, {displayName, question});
+            await createUserProfileDocument(user, {displayName, question, password});
             
             //clearing out the form after submit
             this.setState({

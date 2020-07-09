@@ -17,7 +17,7 @@ ReactDOM.render(
       <Suspense
       fallback={
         <div>
-          Yukleniyor...
+          Loading...
          </div>
       }
     >
