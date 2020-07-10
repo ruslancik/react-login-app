@@ -11,6 +11,7 @@ import {connect} from 'react-redux'
 import {setCurrentUser} from './redux/user/user.actions'
 import SignIn from './component/signIn/sigIn.component';
 import PasswordReset from './component/reset-password/reset.component'
+import EditInformation from './component/edit-information/edit-information.component'
 
 
  
@@ -33,6 +34,7 @@ class App extends React.Component {
       userRef.onSnapshot(snapShot => {
         setCurrentUser({
             id: snapShot.id,
+            displayName: snapShot.displayName,
             ...snapShot.data()
             
           });
@@ -55,12 +57,13 @@ class App extends React.Component {
   render(){
 
     return (
-      <div>
+      <>
         <Header/>
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route exact path='/change-password' component={ChangePassword} />
           <Route exact path='/reset-password' component={PasswordReset} />
+          <Route exact path='/edit' component={EditInformation} />
           <Route exact path='/signin' 
             render={() => this.props.currentUser ? <Redirect to='/' /> : <SignIn />}
            />
@@ -68,7 +71,7 @@ class App extends React.Component {
             render={() => this.props.currentUser ? <Redirect to='/' /> : <SignUp />}
            />
         </Switch>
-      </div>
+      </>
     );
   }
   
