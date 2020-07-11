@@ -12,7 +12,7 @@ import {setCurrentUser} from './redux/user/user.actions'
 import SignIn from './component/signIn/sigIn.component';
 import PasswordReset from './component/reset-password/reset.component'
 import EditInformation from './component/edit-information/edit-information.component'
-
+import firebase from 'firebase/app'
 
  
 
@@ -55,6 +55,7 @@ class App extends React.Component {
   }
 
   render(){
+    const user = firebase.auth().currentUser;
 
     return (
       <>
@@ -65,10 +66,10 @@ class App extends React.Component {
           <Route exact path='/reset-password' component={PasswordReset} />
           <Route exact path='/edit' component={EditInformation} />
           <Route exact path='/signin' 
-            render={() => this.props.currentUser ? <Redirect to='/' /> : <SignIn />}
+            render={() => user ? <Redirect to='/' /> : <SignIn />}
            />
           <Route exact path='/register' 
-            render={() => this.props.currentUser ? <Redirect to='/' /> : <SignUp />}
+            render={() => user ? <Redirect to='/' /> : <SignUp />}
            />
         </Switch>
       </>
@@ -80,7 +81,7 @@ class App extends React.Component {
  // we use Redirect beacause of we need redux state here(mapStateToProps). Otherwise we use 'null' as a 
  // first parametr in 'connect' HOC
  const mapStateToProps = ({user}) => ({
-   currentUser : user.currentUser
+   CurrentUser : user.CurrentUser
  })
 
  const mapDispatchToProps = dispatch => ({

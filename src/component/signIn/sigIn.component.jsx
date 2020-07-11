@@ -3,6 +3,7 @@ import FormInput from '../form-input/form-input.component'
 import CustomButton from '../custom-button/custom-button.component'
 import {signInWithGoogle, signInWithFacebook, auth} from '../../firebase/firebase.utils'
 import {Link, withRouter } from 'react-router-dom'
+import firebase from 'firebase/app'
 //style
 import {
     SignInContainer,
@@ -22,11 +23,20 @@ class SignIn extends React.Component {
     }
     
     handleSubmit =  async event => {
+        const user = firebase.auth().currentUser;
         event.preventDefault();
         const {email, password} = this.state;
         try {
             await auth.signInWithEmailAndPassword(email, password);
             this.setState({email:'', password:''})
+            alert('Please verify your email')
+            user.updateProfile({
+                displayName: user.displayName,
+              }).then(function() {
+                // Update successful.
+              }).catch(function(error) {
+                // An error happened.
+              });
         } catch (error) {
             console.log('there is no such user', error.message);
             alert('There is no such email or password. Please try again.')

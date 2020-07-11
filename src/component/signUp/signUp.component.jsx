@@ -40,7 +40,21 @@ class SignUp extends React.Component {
             // firebase speacial function for email and password signins
             const {user} = await auth.createUserWithEmailAndPassword(email,password);
             await createUserProfileDocument(user, {displayName, question, password});
-            
+            alert('Please, check your email and verify your email adress !')
+            await user.updateProfile({
+                displayName: displayName
+            }).then(function() {
+                window.location.reload()
+                // Update successful.
+              }).catch(function(error) {
+                // An error happened.
+              });
+            await user.sendEmailVerification().then(function() {
+                alert('user verification')
+              }).catch(function(error) {
+                // An error happened.
+              });
+              
             //clearing out the form after submit
             this.setState({
                 displayName:"",
