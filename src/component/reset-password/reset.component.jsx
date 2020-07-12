@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import firebase from 'firebase/app'
 import FormInput from '../form-input/form-input.component'
@@ -65,7 +65,7 @@ const PasswordReset = () => {
             </ButtonsBarContainer>
         </form>
 
-        <Link to="/"> &larr; back to sign in page</Link>
+        <Link to="/signin"> &larr; back to sign in page</Link>
     </ResetContainer>
   );
 };

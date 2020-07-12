@@ -23,23 +23,21 @@ class SignIn extends React.Component {
     }
     
     handleSubmit =  async event => {
-        const user = firebase.auth().currentUser;
+        
         event.preventDefault();
         const {email, password} = this.state;
         try {
-            await auth.signInWithEmailAndPassword(email, password);
-            this.setState({email:'', password:''})
-            alert('Please verify your email')
-            user.updateProfile({
-                displayName: user.displayName,
-              }).then(function() {
-                // Update successful.
-              }).catch(function(error) {
-                // An error happened.
-              });
+            await auth.signInWithEmailAndPassword(email, password)
+            .then(() =>  this.setState({email:'', password:''}) )
+            .then(() => {
+                const user = firebase.auth().currentUser;
+                !user.emailVerified && alert('Please check your email for email verification !')})
+           
+            
+            
+            
         } catch (error) {
-            console.log('there is no such user', error.message);
-            alert('There is no such email or password. Please try again.')
+            alert(error.message);
         }
     }
 

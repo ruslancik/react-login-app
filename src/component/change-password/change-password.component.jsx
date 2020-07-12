@@ -2,8 +2,8 @@ import React from 'react'
 
 import FormInput from '../form-input/form-input.component'
 import CustomButton from '../custom-button/custom-button.component'
-
-import {auth, createUserProfileDocument} from '../../firebase/firebase.utils'
+import { message } from "antd";
+import {auth} from '../../firebase/firebase.utils'
 
 import {ChangePasswordContainer, ChangePasswordTitle} from './change-password.style'
 import firebase from 'firebase/app'
@@ -37,13 +37,13 @@ class ChangePassword extends React.Component {
         this.reAuthentication(currentPassword).then(() => {
            
             if(password !== confirmPassword) {
-                alert("Passwords don't match ")
+                message.error(" Confirm Password didn't match !")
                 return;
             }
            
                 const user = firebase.auth().currentUser;
                 user.updatePassword(password).then(() => {
-                    alert('Password was changed')
+                    message.success('Password changed !')
                 }).catch((error) => {
                     alert(error.message)
                 })           
@@ -57,8 +57,7 @@ class ChangePassword extends React.Component {
                 displayName:"",
                 email:"",
                 password:"",
-                confirmPassword: "",
-                question: ''
+                confirmPassword: ""
             })
 
        

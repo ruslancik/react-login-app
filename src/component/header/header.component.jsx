@@ -1,8 +1,8 @@
 import React from 'react'
+import 'antd/dist/antd.css';
 import {auth} from '../../firebase/firebase.utils'
-import { connect } from 'react-redux'
 import {useHistory} from 'react-router-dom'
-import { Menu, Dropdown } from "antd";
+import { Menu, Dropdown, message } from "antd";
 import { UserOutlined } from '@ant-design/icons';
 //style
 import {
@@ -24,15 +24,15 @@ const Header = () => {
     if (user != null) {
         userName = user.displayName;
     }
+    const emailVerificationResend = () => user.sendEmailVerification();
 
     const deleteUser = async () => {
-       await user.delete().then(function() {
-            alert('user deleted')
-          }).catch(function(error) {
-            alert(error.message)
-          });
+       await user.delete()
+       .then(() => message.success('User has been deleted !'))
+       .catch((error) => alert(error.message));
 
-          history.push('/');
+        history.push('/');
+        
     }
 
     const greeting = (name) => {
@@ -40,15 +40,17 @@ const Header = () => {
     }
 
     const menu = (
-        <Menu style={{margin:'0 10px'}}>
-            <Menu.Item>
-                <OptionLink to='/change-password'>Change Password</OptionLink>
-            </Menu.Item>
+        <Menu style={{margin:'0 10px', padding: '20px'}}>
             <Menu.Item>
                 <OptionLink to='/edit'>Edit</OptionLink>
             </Menu.Item>
+            <Menu.Item>
+                <OptionLink to='/change-password'>Change Password</OptionLink>
+            </Menu.Item>
             <Menu.Item onClick={deleteUser}>Remove</Menu.Item>
             <Menu.Item onClick={() => auth.signOut()}> Sign Out</Menu.Item>
+            <Menu.Item style={{color: 'red'}} onClick={emailVerificationResend}>Resend Verification</Menu.Item>
+
         </Menu>
     )
 
@@ -56,7 +58,7 @@ const Header = () => {
         <HeaderContainer>
             <OptionsContainer>
             <OptionLink to='/'>Home</OptionLink>
-
+             
                 {
                     user ?
                     <>

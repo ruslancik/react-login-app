@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { message } from "antd";
 import FormInput from '../form-input/form-input.component'
 import CustomButton from '../custom-button/custom-button.component'
 
@@ -16,8 +16,7 @@ class SignUp extends React.Component {
             displayName:"",
             email:"",
             password:"",
-            confirmPassword: "",
-            question: ''
+            confirmPassword: ""
         }
     }
     // HandleChange function
@@ -29,39 +28,34 @@ class SignUp extends React.Component {
     //HandleSubmit function
     handleSubmit = async event => {
         event.preventDefault();
-        const {displayName, email, password, confirmPassword,question} = this.state;
+        const {displayName, email, password, confirmPassword} = this.state;
 
         if(password !== confirmPassword) {
-            alert("Passwords don't match ")
+            message.error(" Confirm Password didn't match !")
             return;
         }
 
         try {
             // firebase speacial function for email and password signins
             const {user} = await auth.createUserWithEmailAndPassword(email,password);
-            await createUserProfileDocument(user, {displayName, question, password});
-            alert('Please, check your email and verify your email adress !')
+            await createUserProfileDocument(user, {displayName, password});
             await user.updateProfile({
                 displayName: displayName
-            }).then(function() {
-                window.location.reload()
-                // Update successful.
-              }).catch(function(error) {
-                // An error happened.
-              });
-            await user.sendEmailVerification().then(function() {
-                alert('user verification')
-              }).catch(function(error) {
-                // An error happened.
-              });
+            })
+            .then(() => {
+                window.location.reload();
+                alert('Please check your email for email verification !')
+            })
+            .catch(error => alert(error.message));
+            
+            await user.sendEmailVerification();
               
             //clearing out the form after submit
             this.setState({
                 displayName:"",
                 email:"",
                 password:"",
-                confirmPassword: "",
-                question: ''
+                confirmPassword: ""
             })
 
         } catch (error) {
@@ -91,15 +85,6 @@ class SignUp extends React.Component {
                     value={this.state.email}
                     onChange={this.handleChange}
                     required/>
-
-                    <FormInput
-                    name='question'
-                    type='text'
-                    label='What is your first pet name ?   | For Security'
-                    value={this.state.question}
-                    onChange={this.handleChange}
-                    required>
-                    </FormInput>
 
                     <FormInput
                     name='password'
