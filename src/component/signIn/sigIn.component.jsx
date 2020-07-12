@@ -3,6 +3,7 @@ import FormInput from '../form-input/form-input.component'
 import CustomButton from '../custom-button/custom-button.component'
 import {signInWithGoogle, signInWithFacebook, auth} from '../../firebase/firebase.utils'
 import {Link, withRouter } from 'react-router-dom'
+import { message } from "antd";
 import firebase from 'firebase/app'
 //style
 import {
@@ -31,11 +32,16 @@ class SignIn extends React.Component {
             .then(() =>  this.setState({email:'', password:''}) )
             .then(() => {
                 const user = firebase.auth().currentUser;
-                !user.emailVerified && alert('Please check your email for email verification !')})
-           
+                if(!user.emailVerified){
+                    let isVerify = window.confirm("Do you want to resend verification email ?");
+                    if(isVerify) {
+                        user.sendEmailVerification();
+                        message.success('Verification email sent ! Please, Check your email..')
+                    }
+                }
             
-            
-            
+                })
+ 
         } catch (error) {
             alert(error.message);
         }

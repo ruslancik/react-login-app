@@ -13,8 +13,6 @@ import {
 } from './header.style'
 
 
-
-
 const Header = () => {
 
     const history = useHistory();
@@ -24,7 +22,6 @@ const Header = () => {
     if (user != null) {
         userName = user.displayName;
     }
-    const emailVerificationResend = () => user.sendEmailVerification();
 
     const deleteUser = async () => {
        await user.delete()
@@ -49,8 +46,6 @@ const Header = () => {
             </Menu.Item>
             <Menu.Item onClick={deleteUser}>Remove</Menu.Item>
             <Menu.Item onClick={() => auth.signOut()}> Sign Out</Menu.Item>
-            <Menu.Item style={{color: 'red'}} onClick={emailVerificationResend}>Resend Verification</Menu.Item>
-
         </Menu>
     )
 
